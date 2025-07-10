@@ -16,7 +16,7 @@ function App() {
   /** @type {[ProcessedFile | null, React.Dispatch<React.SetStateAction<ProcessedFile | null>>]} */
   const [processedFile, setProcessedFile] = useState(null);
 
-  // 处理下载操作
+  // 处理下载操作 - 未完善，需要调整，要根据返回连接下载文件
   const handleDownload = async () => {
     const fileUrl = `/output/test.html`;
     const fileName = 'test.html';
@@ -75,7 +75,7 @@ function App() {
             <div className="flex space-x-4">
               {/* 预览按钮 */}
               <a 
-                href={`http://localhost:5000${processedFile.outputPath}`}
+                href={`${process.env.REACT_APP_API_URL}${processedFile.outputPath}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out flex items-center"
