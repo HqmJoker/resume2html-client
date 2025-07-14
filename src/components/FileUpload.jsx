@@ -70,6 +70,26 @@ const FileUpload = () => {
     setError('');
   };
 
+  // 查看HTML结果
+  const handleViewResult = () => {
+    if (result && result.viewUrl) {
+      window.open(result.viewUrl, '_blank');
+    } else if (result && result.id) {
+      // 兼容旧版API，如果没有返回完整URL则使用ID拼接
+      window.open(`/api/view/${result.id}`, '_blank');
+    }
+  };
+
+  // 下载HTML文件
+  const handleDownloadHTML = () => {
+    if (result && result.downloadUrl) {
+      window.open(result.downloadUrl, '_blank');
+    } else if (result && result.id) {
+      // 兼容旧版API，如果没有返回完整URL则使用ID拼接
+      window.open(`/api/download/${result.id}`, '_blank');
+    }
+  };
+
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-4 text-center text-gray-700">上传简历 PDF</h2>
@@ -134,21 +154,28 @@ const FileUpload = () => {
             <p className="text-sm text-gray-600 mb-3">处理时间: {new Date(result.timestamp).toLocaleString()}</p>
           )}
           
-          <div className="flex space-x-2">
-            {result.success && result.outputPath && (
-              <a
-                href={result.outputPath}
-                target="_blank"
-                rel="noreferrer"
-                className="flex-1 text-center py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
-              >
-                查看HTML
-              </a>
+          <div className="flex flex-col space-y-2">
+            {result.success && (result.viewUrl || result.id) && (
+              <>
+                <button
+                  onClick={handleViewResult}
+                  className="w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
+                >
+                  查看结果
+                </button>
+                
+                <button
+                  onClick={handleDownloadHTML}
+                  className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md"
+                >
+                  下载网页
+                </button>
+              </>
             )}
             
             <button
               onClick={handleReset}
-              className="flex-1 py-2 rounded-md text-white font-medium bg-blue-600 hover:bg-blue-700"
+              className="w-full py-2 rounded-md text-white font-medium bg-blue-600 hover:bg-blue-700"
             >
               重新上传
             </button>
