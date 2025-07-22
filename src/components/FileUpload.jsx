@@ -55,7 +55,6 @@ const FileUpload = () => {
       }
     } catch (err) {
       // 网络错误或服务器返回非200状态码
-      console.error('上传失败:', err);
       setError(err.response?.data?.error?.message || '上传失败，请稍后重试');
       setResult(null);
     } finally {
